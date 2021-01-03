@@ -13,7 +13,7 @@ You can issue a `GET` request to the root endpoint to get all functionalities th
 curl http://riserppt-env.eba-d33caqt3.sa-east-1.elasticbeanstalk.com
 ```
 
-### Endpoint: /calculate
+### Endpoint: root/calculate
 This is the main endpoint of the API, and it performs riser deflection and inclination calculations by solving Euler Elastic beam's differential equations. 
 
 The API also calculates how much the production riser tensioner strokes up or down when it is subjected to top tension variations that result from diferent events such as: 
@@ -26,7 +26,7 @@ The API also calculates how much the production riser tensioner strokes up or do
 Knowing the tensioner response caused by the events listed above is extremely important to estimate how much stroke the tensioner should have before attaching it to the tensioner ring at the final stage of Production Riser deployment.
 
 * **URL**
-<root>/calculate
+root/calculate
 * **Method:**
 `POST`
 * **Data Parameters:**
@@ -67,7 +67,14 @@ The example bellow show data in JSON format returned from the server as an examp
         ]
     }
 ```
-   
+The example bellow show the ```POST``` request to /calculate and its response:
+
+```sh
+curl -X -POST -H "Content-Type: application/json" -d inputData.json \ 
+http://riserppt-env.eba-d33caqt3.sa-east-1.elasticbeanstalk.com/calculate
+
+```
+
 * **Success Response**
      * **Code:** 200 
      * **Content:** A JSON object like the example bellow:
@@ -136,7 +143,7 @@ There are two types of client errors on API calls that receive request bodies:
 ### Endpoint: /definitions
 A `GET` request to this route will return definitions on the variables that the user is supposed to send to the server, the unit used to 'measure' that variable and finally the maximum and minimum acceptable values to that specific variable.
 * **URL**
-<root>/definitions
+root/definitions
 * **Method:**
 `GET`
 * **Data Parameters:**
@@ -189,29 +196,31 @@ The following website provide a UI that consumes information from the API and di
 
 #### Sample Call: 
 
-```javascipt
+```js
 axios.post("http://api-riser.ppt/calculate", this.dataToServer)
     .then(resp => {
-    const dataProcessed = this.processData(resp.data)
-    this.$emit("simulationDone", dataProcessed)
-    this.loading = false
+      const dataProcessed = this.processData(resp.data)
+      this.$emit("simulationDone", dataProcessed)
+      this.loading = false
     })
     .cath(error => {
-    const errorObj = {
-        code: error.response.status,
-        message: error.response.data.error
-    }
-    this.$emit('errorFound', errorObj)
-    this.loading = false
+      const errorObj = {
+          code: error.response.status,
+          message: error.response.data.error
+      }
+      this.$emit('errorFound', errorObj)
+      this.loading = false
     })
 ```
-A user could be hypotetically interested in calculate the top tension influence on the riser inclination and decide wether or not riser top tension change is relevant at a given situation. In this case, it's just a matter of sending two requests with different riser top tension,  keeping all other data constant. Comparing both responses we get:
+A user could be hypotetically interested in calculate the top tension influence on the riser inclination and decide wether or not riser top tension change is relevant at a given situation. In this case, it's just a matter of sending two requests with different riser top tension,  keeping all other data constant. Plotting both inclinations allow us comparing the responses:
 
-(insere as imagens ai bahia)
+<p align="center" width="100%">
+    <img src="Top Tension Effect.png" width="60%" height="60%">
+</p>
 
 ### Development
 
-Want to contribute? Great!
+Want to contribute? Great! :handshake:
 
 Our riser API has been implemented in Python, using the microframework Flask to deploy the content and Numpy / Scipy libraries to solve the differential and non-linear equations that describe riser deflection and tensioner response.
 
