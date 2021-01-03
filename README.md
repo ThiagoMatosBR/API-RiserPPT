@@ -70,12 +70,12 @@ The example bellow show data in JSON format returned from the server as an examp
 The example bellow show the ```POST``` request to /calculate and its response:
 
 ```sh
-curl -X -POST -H "Content-Type: application/json" -d inputData.json \ 
+curl -H "Content-Type: application/json" -d "@testData.json" -X POST \
 http://riserppt-env.eba-d33caqt3.sa-east-1.elasticbeanstalk.com/calculate
 
 ```
 
-* **Success Response**
+* **Success Response :thumbsup:**
      * **Code:** 200 
      * **Content:** A JSON object like the example bellow:
         ``` 
@@ -116,8 +116,10 @@ http://riserppt-env.eba-d33caqt3.sa-east-1.elasticbeanstalk.com/calculate
         * **elongations** is the array with all tensioner's upstrokes and downstrokes in inches, caused by events such as: production string installation, annulus fluid replacement, top tension variation.
         * **offsetTLWP** is the TLWP offset in meters.
 
-* **Error Response:**
-There are two types of client errors on API calls that receive request bodies: 
+* **Error Response :warning:**
+
+There are two types of client errors on API calls that receive request bodies:
+
 1. Sending invalid fields our values out of bounds will result in a ``` 422 UNPROCESSABLE ENTRY ``` .
    * Example bellow show a situation where production string external diamenter is too large:
         ```
@@ -176,7 +178,7 @@ Not Required
         .
     }
     ```
-### Rate Limit
+### Rate Limit :no_entry_sign:
 In order to provide better quality service we apply rate limits on all routes and also extra rate limits on those requests that are computationally expensive.
 
 If you exceed your rate limit you can check the rate limit status response header, as shown bellow:
@@ -187,17 +189,20 @@ If you exceed your rate limit you can check the rate limit status response heade
 > X-RateLimit-Reset: 1377013266
 ```
 
-When playing around to see, for example, the influence of diferent parameters on riser deflection and inclination you may hit the API rate limit. If this happen, back off from making requests and try again later. Be a nice API citizen!
+When playing around to see, for example, the influence of diferent parameters on riser deflection and inclination you may hit the API rate limit. If this happen, back off from making requests and try again later. Be a nice API citizen :ok_hand: !
 
 ### Exemples of Usage 
 The following website provide a UI that consumes information from the API and display riser inclination, deflection as well as tensioner up and downstrokes. Here's a sample video:
 
-![ Sample Video] (https://www.youtube.com/watch?v=jn4gHsEgQuw)
+[<img src="https://img.youtube.com/vi/jn4gHsEgQuw/maxresdefault.jpg" width="70%">](https://youtu.be/jn4gHsEgQuw)
+
 
 #### Sample Call: 
 
 ```js
-axios.post("http://api-riser.ppt/calculate", this.dataToServer)
+const rootEndpoint = "http://riserppt-env.eba-d33caqt3.sa-east-1.elasticbeanstalk.com"
+
+axios.post("${rootEndpoint}/calculate", this.dataToServer)
     .then(resp => {
       const dataProcessed = this.processData(resp.data)
       this.$emit("simulationDone", dataProcessed)
@@ -212,13 +217,13 @@ axios.post("http://api-riser.ppt/calculate", this.dataToServer)
       this.loading = false
     })
 ```
-A user could be hypotetically interested in calculate the top tension influence on the riser inclination and decide wether or not riser top tension change is relevant at a given situation. In this case, it's just a matter of sending two requests with different riser top tension,  keeping all other data constant. Plotting both inclinations allow us comparing the responses:
+A user could be hypotetically interested in calculate the top tension influence on the riser inclination and decide wether or not riser top tension change is relevant at a given situation :nerd_face:. In this case, it's just a matter of sending two requests with different riser top tension,  keeping all other data constant. Plotting both inclinations :chart_with_downwards_trend: allow us comparing the responses :point_down:
 
 <p align="center" width="100%">
     <img src="Top Tension Effect.png" width="60%" height="60%">
 </p>
 
-### Development
+### Development :brain:
 
 Want to contribute? Great! :handshake:
 
@@ -228,7 +233,7 @@ The mathematical aspect of the API has been based on the articles and the excell
 
 Due to proprietary information, we don't have a public repository yet. But if you are interested in contribute, please contact us on the [developer] Linkdin!
 
-### Todos
+### Todos :clipboard:
 
  - Write MORE Tests.
  - Add a drilling riser module.
