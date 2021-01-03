@@ -33,9 +33,9 @@ Knowing the tensioner response caused by the events listed above is extremely im
 If the user is uncertain on the data syntax, it can be sent a `GET` request to <root>/example and the server will respond with sample data, composed of variables that are required to perform the calculations and its correspondent hipotetic values. 
 
 The example bellow show data in JSON format returned from the server as an example to instruct the user:
-    
-    ```
-    {
+  
+```
+{
         "odCop": 7,
         "wCop": 300000,
         "n2Pressure": 100,
@@ -66,7 +66,8 @@ The example bellow show data in JSON format returned from the server as an examp
             {"depth": 1100, "speed": 0.17, "azimuth": 94 }
         ]
     }
-    ```
+```
+   
 * **Success Response**
      * **Code:** 200 
      * **Content:** A JSON object like the example bellow:
@@ -110,7 +111,7 @@ The example bellow show data in JSON format returned from the server as an examp
 
 * **Error Response:**
 There are two types of client errors on API calls that receive request bodies: 
-   1. Sending invalid fields our values out of bounds will result in a ``` 422 UNPROCESSABLE ENTRY ``` .
+1. Sending invalid fields our values out of bounds will result in a ``` 422 UNPROCESSABLE ENTRY ``` .
    * Example bellow show a situation where production string external diamenter is too large:
         ```
         {
@@ -124,7 +125,7 @@ There are two types of client errors on API calls that receive request bodies:
         }
         ```
     
-    2. Sending invalid JSON will result in a ``` 400 BAD REQUEST ```.
+2. Sending invalid JSON will result in a ``` 400 BAD REQUEST ```.
    * Usually a mal-formed JSON sent by the user:
         ```
         {
